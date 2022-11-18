@@ -394,7 +394,7 @@ h5 {
 }
 
 
-.btn:hover {
+.btn:hover, .btn.active{
     background-color: #D43F52;
     color: #000000;
 
