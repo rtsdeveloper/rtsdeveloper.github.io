@@ -397,11 +397,13 @@
 					</address>
 				</div>
 				<div class="col-lg-6 col-md-6 col-xs-10 wow fadeInUp" data-wow-delay="0.6s">
-					<form>
-						<input required name="name" type="text" class="form-control" id="name" placeholder="Your Name">
-						<input required name="email" type="email" class="form-control" id="email" placeholder="Your Email">
-						<input required name="phone" type="text" class="form-control" id="phone" placeholder="Your Number">
-						<textarea required name="msg" rows="5" class="form-control" id="message"
+					<form action="javascript:sendmail()" method="post">
+						<input required name="name" type="text" class="form-control" id="Name" placeholder="Your Name">
+						<input required name="email" type="email" class="form-control" id="Sender"
+							placeholder="Your Email">
+						<input required name="phone" type="text" class="form-control" id="Phone"
+							placeholder="Your Number">
+						<textarea required name="message" rows="5" class="form-control" id="Message"
 							placeholder="Your Message"></textarea>
 						<input name="send" type="submit" class="form-control" id="send" value="SEND ME">
 					</form>
@@ -419,9 +421,12 @@
 				<div class="col-md-12 wow fadeIn" data-wow-delay="0.5s">
 					<p>Copyright &copy; 2022 RTS-Developer's Portfolio</p>
 					<ul class="social-icon">
-						<li><a href="https://www.facebook.com/riteshsharma9696832628" target="_blank" class="fa-brands fa-facebook"></a></li>
-						<li><a href="https://www.linkedin.com/in/ritesh-sharma-web-developer" target="_blank" class="fa-brands fa-linkedin"></a></li>
-						<li><a href="https://www.instagram.com/mr_king_ritesh_?igshid=ZDdkNTZiNTM=" target="_blank" class="fa-brands fa-instagram"></a></li>
+						<li><a href="https://www.facebook.com/riteshsharma9696832628" target="_blank"
+								class="fa-brands fa-facebook"></a></li>
+						<li><a href="https://www.linkedin.com/in/ritesh-sharma-web-developer" target="_blank"
+								class="fa-brands fa-linkedin"></a></li>
+						<li><a href="https://www.instagram.com/mr_king_ritesh_?igshid=ZDdkNTZiNTM=" target="_blank"
+								class="fa-brands fa-instagram"></a></li>
 					</ul>
 				</div>
 			</div>
@@ -431,7 +436,8 @@
 
 	<div class="container">
 		<div class="Whatsapp">
-			<a href="https://wa.me/+919696832628?text=Hello%20Mr%20Ritesh%20How%20are%20you?" target="_blank"><img src="/images/whatsapp.png" alt="WhatApp"></a>
+			<a href="https://wa.me/+919696832628?text=Hello%20Mr%20Ritesh%20How%20are%20you?" target="_blank"><img
+					src="/images/whatsapp.png" alt="WhatApp"></a>
 		</div>
 		<div class="Callus">
 			<a href="tel:9696832628"><img src="/images/telephone.png" alt="Call Us"></a>
@@ -454,12 +460,44 @@
 	<script src="js/wow.min.js"></script>
 	<!-- text rotater -->
 	<script src="js/jquery.simple-text-rotator.js"></script>
-	<!-- custom -->
-	<script src="js/custom.js"></script>
 	<!-- Time Function -->
 	<script src="js/time.js"></script>
 	<!-- Email Sending -->
-		
+	<script src="https://smtpjs.com/v3/smtp.js"></script>
+	<script>
+		function sendmail() {
+			var name = $('#Name').val();
+			var email = $('#Sender').val();
+			var subject = $('#Subject').val();
+			var message = $('#Message').val();
+			var phone = $('#Phone').val();
+			// var body = $('#body').val();
+			var Body = 'Name: ' + name + '<br>Phone: ' + phone + '<br>Email: ' + email + '<br>Subject: ' + subject + '<br>Message: ' + message;
+			//console.log(name, phone, email, message);
+			Email.send({
+				//SecureToken: "101f535-74f7-4272-9cb9-1661d39af048 ",
+				Host: "smtp.elasticemail.com",
+				Username: "sharmaritesh9794@gmail.com",
+				Password: "5912ED2BFC61895B9E8E178017BB6AE06822",
+				To: 'sharmaritesh9696@gmail.com',
+				From: "sharmaritesh9794@gmail.com",
+				Subject: "New message on contact from " + name,
+				Body: Body
+			}).then(
+				message => {
+					console.log(message);
+					if (message == 'OK') {
+						alert('Your mail has been send.Thank you for connecting with us.');
+					}
+					else {
+						console.error(message);
+						alert('There is error at sending message. ')
+					}
+				}
+			);
+		}
+	</script>
+
 </body>
 
 </html>
