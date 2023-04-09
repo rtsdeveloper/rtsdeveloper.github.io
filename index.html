@@ -397,10 +397,11 @@
 					</address>
 				</div>
 				<div class="col-lg-6 col-md-6 col-xs-10 wow fadeInUp" data-wow-delay="0.6s">
-					<form method="post" action="#">
-						<input name="name" type="text" class="form-control" id="name" placeholder="Your Name">
-						<input name="email" type="email" class="form-control" id="email" placeholder="Your Email">
-						<textarea name="message" rows="5" class="form-control" id="message"
+					<form action="" method="post" >
+						<input required name="name" type="text" class="form-control" id="name" placeholder="Your Name">
+						<input required name="email" type="email" class="form-control" id="email" placeholder="Your Email">
+						<input required name="phone" type="text" class="form-control" id="phone" placeholder="Your Number">
+						<textarea required name="msg" rows="5" class="form-control" id="message"
 							placeholder="Your Message"></textarea>
 						<input name="send" type="submit" class="form-control" id="send" value="SEND ME">
 					</form>
@@ -430,10 +431,10 @@
 
 	<div class="container">
 		<div class="Whatsapp">
-			<a href="https://wa.me/+919696832628?text=Hello%20Mr%20Ritesh%20How%20are%20you?" target="_blank"><img src="../images/whatsapp.png" alt="WhatApp"></a>
+			<a href="https://wa.me/+919696832628?text=Hello%20Mr%20Ritesh%20How%20are%20you?" target="_blank"><img src="/images/whatsapp.png" alt="WhatApp"></a>
 		</div>
 		<div class="Callus">
-			<a href="tel:9696832628"><img src="../images/telephone.png" alt="Call Us"></a>
+			<a href="tel:9696832628"><img src="/images/telephone.png" alt="Call Us"></a>
 		</div>
 	</div>
 
@@ -457,7 +458,60 @@
 	<script src="js/custom.js"></script>
 	<!-- Time Function -->
 	<script src="js/time.js"></script>
-
+	<!-- Email Sending -->
+		
 </body>
 
 </html>
+
+<?php
+
+	//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+if(isset($_POST['send']))
+{
+	$name= $_POST['name'];
+	$email= $_POST['email'];
+	$msg= $_POST['msg'];
+	$phone= $_POST['phone'];
+
+
+
+//Load Composer's autoloader
+require 'PHP/Mailer/Exception.php';
+require 'PHP/Mailer/PHPMailer.php';
+require 'PHP/Mailer/SMTP.php';
+
+//Create an instance; passing `true` enables exceptions
+$mail = new PHPMailer(true);
+
+try {
+    //Server settings
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'sharmaritesh9794@gmail.com';                     //SMTP username
+    $mail->Password   = 'efmhifwoaicgynpp';                               //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('sharmaritesh9794@gmail.com', 'Mailer');
+    $mail->addAddress('sharmaritesh9696@gmail.com', 'Ritesh Sharma');     //Add a recipient
+   
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'New Query For job Related.';
+    $mail->Body    = "Sender Name - $name <br> Sender Email - $email <br> Message - $msg Phone Number - $phone";
+    
+    $mail->send();
+    echo "<div class='success'>Message hase been Sent.</div>";
+} catch (Exception $e) {
+    echo "<div class='alert'>Message could not be sent. Mailer Error: {$mail->ErrorInfo}</div>";
+}
+}
+?>
