@@ -506,18 +506,18 @@
 	<div id="contact" class="section">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-6 col-lg-offset-1 col-md-6 wow fadeInUp">
+				<div class="col-lg-5 col-lg-offset-1 col-md-6 wow fadeInUp">
 					<address>
 						<p class="contact-title">CONTACT ME</p>
 						<p><i class="fa fa-phone"></i> +91-9696832628</p>
 						<p><i class="fa fa-envelope"></i>sharmaritesh9696@gmail.com</p>
-						<p><i class="fa fa-map-marker"></i>Sec-22, Noida, Uttar Pradesh, India</p>
+						<p><i class="fa fa-map-marker"></i>Plot No-233, Sec-22, Noida, Uttar Pradesh</p>
 					</address>
 				</div>
 				<div class="col-lg-6 col-md-6 col-xs-10 wow fadeInUp" data-wow-delay="0.6s">
-					<form action="javascript:sendmail()" method="post">
+					<form id="contact-form">
 						<input required name="name" type="text" class="form-control" id="Name" placeholder="Your Name">
-						<input required name="email" type="email" class="form-control" id="Sender"
+						<input required name="email" type="email" class="form-control" id="Email"
 							placeholder="Your Email">
 						<input required name="phone" type="text" class="form-control" id="Phone"
 							placeholder="Your Number">
@@ -526,11 +526,49 @@
 						<input name="send" type="submit" class="form-control" id="send" value="SEND ME">
 					</form>
 				</div>
+				<div class="col-md-1 col-sm-1"></div>
 			</div>
 		</div>
 	</div>
 	<!-- end contact -->
+        <script>
+		function blink_text() {
+			$('.blink').fadeOut(700);
+			$('.blink').fadeIn(700);
+		};
+		setInterval(blink_text, 1400);
 
+		// Initialize EmailJS with your user ID
+		emailjs.init('oDz7J9a_TEWdPoTNr');
+
+		// Add an event listener to the form submission
+		document.getElementById('contact-form').addEventListener('submit', function (event) {
+			event.preventDefault(); // Prevent the default form submission
+
+			// Get form values
+			const form = this;
+			const name = form.querySelector('#Name').value;
+			const email = form.querySelector('#Email').value;
+			const message = form.querySelector('#Message').value;
+			const phone = form.querySelector('#Phone').value;
+
+			// Send email using EmailJS
+			emailjs.send('service_6ij7pap', 'template_4zgm6mj', {
+				from_name: name,
+				from_email: email,
+				message: message,
+				from_phone: phone
+			})
+				.then(function (response) {
+					console.log('Email sent!', response);
+					alert('Email sent successfully!');
+					form.reset(); // Reset the form after successful submission
+				}, function (error) {
+					console.error('Email failed to send:', error);
+					alert('Email failed to send. Please try again later.');
+				});
+		});
+	</script>
 	<!-- start footer -->
 	<footer>
 		<div class="container">
@@ -581,14 +619,10 @@
 	<script src="js/smoothscroll.js"></script>
 	<!-- wow -->
 	<script src="js/wow.min.js"></script>
-	<!-- custom js -->
-	<script src="js/custom.js"></script>
 	<!-- text rotater -->
 	<script src="js/jquery.simple-text-rotator.js"></script>
 	<!-- Time Function -->
 	<script src="js/time.js"></script>
-	<!-- Email Sending -->
-	<script src="https://smtpjs.com/v3/smtp.js"></script>
 </body>
 
 </html>
